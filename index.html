@@ -3,42 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rompecabezas de Girasoles</title>
+    <title>Amor</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Rompecabezas de Girasoles</h1>
-            <p class="subtitle">¡Completa el rompecabezas para descubrir el mensaje!</p>
+            <h1>Amor</h1>
+            <p>Completa el rompecabezas para descubrir un mensaje especial</p>
         </header>
         
-        <div class="game-container">
-            <div class="puzzle-container">
-                <div class="puzzle-board" id="puzzle-board">
-                    <!-- Las piezas se generarán con JavaScript -->
-                </div>
-                
-                <div class="controls">
-                    <button id="shuffle-btn">Mezclar</button>
-                </div>
-            </div>
+        <div class="game-controls">
+            <button id="start-btn" class="btn start-btn">Comenzar Juego</button>
+            <button id="shuffle-btn" class="btn shuffle-btn" disabled>Mezclar</button>
         </div>
         
-        <!-- Modal de mensaje de amor -->
-        <div class="modal" id="message-modal">
-            <div class="modal-content">
-                <span class="close" id="close-modal">&times;</span>
-                <h2>Para Ti</h2>
-                <div class="message">
-                    <p>Como los girasoles siguen al sol,</p>
-                    <p>mi corazón te sigue a ti.</p>
-                    <p>Eres la luz que ilumina mis días</p>
-                    <p>y la razón de mi sonrisa.</p>
-                    <p>💛 Te amo 💛</p>
-                </div>
-                <button id="close-btn">Cerrar</button>
-            </div>
+        <div id="puzzle-board" class="puzzle-board"></div>
+    </div>
+    
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="heart">&#10084;</div>
+            <h2>¡Te Amo!</h2>
+            <p>Sé que este no son las flores amarillas que esperabas.</p>
+            <p>Pero créeme que estas nunca se marchitarán, asi como mi amor por tí.</p>
+            <p>Nunca me olvides...</p>
+            <button id="close-btn" class="btn love-btn">Volver a Jugar</button>
         </div>
     </div>
 

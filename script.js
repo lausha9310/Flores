@@ -7,24 +7,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Elementos del DOM
     const puzzleBoard = document.getElementById('puzzle-board');
+    const startButton = document.getElementById('start-btn');
     const shuffleButton = document.getElementById('shuffle-btn');
     const modal = document.getElementById('message-modal');
-    const closeModal = document.getElementById('close-modal');
     const closeBtn = document.getElementById('close-btn');
     
-    // Imagen de girasoles - URL válida de internet
+    // Imagen romántica
     const imageUrl = "images/sunflowers.png";
     
-    // Resto del código sin cambios...
     // Inicializar el tablero
     function initializeBoard() {
         puzzleBoard.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
         
-        // Crear el tablero con números ordenados
+        // Crear el tablero con números ordenados (1-8)
         for (let i = 1; i < boardSize * boardSize; i++) {
             board.push(i);
         }
-        board.push(null); // Celda vacía
+        board.push(null); // Celda vacía (posición 9)
         emptyCell = boardSize * boardSize - 1;
         
         renderBoard();
@@ -40,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (cellValue === null) {
                 cell.className = 'puzzle-piece empty';
+                cell.innerHTML = ''; // Asegurar que esté vacío
             } else {
                 cell.className = 'puzzle-piece';
                 
@@ -47,8 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const row = Math.floor((cellValue - 1) / boardSize);
                 const col = (cellValue - 1) % boardSize;
                 
+                // Corregir el cálculo de la posición de fondo
+                const backgroundPosX = (col * 100) / (boardSize - 1);
+                const backgroundPosY = (row * 100) / (boardSize - 1);
+                
                 cell.style.backgroundImage = `url(${imageUrl})`;
-                cell.style.backgroundPosition = `${-col * (100/(boardSize-1))}% ${-row * (100/(boardSize-1))}%`;
+                cell.style.backgroundPosition = `${backgroundPosX}% ${backgroundPosY}%`;
                 cell.style.backgroundSize = `${boardSize * 100}%`;
                 
                 // Añadir evento de clic
@@ -61,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMovableCells();
     }
     
-    // Resto del código sin cambios...
     // Actualizar celdas movibles
     function updateMovableCells() {
         const cells = puzzleBoard.querySelectorAll('.puzzle-piece:not(.empty)');
@@ -76,7 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
         adjacentIndexes.forEach(index => {
             if (index >= 0 && index < boardSize * boardSize) {
                 const cell = puzzleBoard.children[index];
-                cell.classList.add('movable');
+                if (cell && !cell.classList.contains('empty')) {
+                    cell.classList.add('movable');
+                }
             }
         });
     }
@@ -102,14 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mover celda
     function moveCell(index) {
+        if (!gameStarted) return;
+        
         const adjacentIndexes = getAdjacentIndexes(index);
         
         if (adjacentIndexes.includes(emptyCell)) {
-            // Iniciar el juego en el primer movimiento
-            if (!gameStarted) {
-                gameStarted = true;
-            }
-            
             // Intercambiar la celda con la celda vacía
             [board[index], board[emptyCell]] = [board[emptyCell], board[index]];
             emptyCell = index;
@@ -118,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Comprobar si el juego está completo
             if (isGameComplete()) {
+                console.log("¡Rompecabezas completado!");
                 showMessage();
             }
         }
@@ -136,7 +139,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         renderBoard();
-        gameStarted = false;
+    }
+    
+    // Comenzar juego
+    function startGame() {
+        gameStarted = true;
+        startButton.disabled = true;
+        shuffleButton.disabled = false;
+        shuffleBoard();
     }
     
     // Comprobar si el juego está completo
@@ -157,12 +167,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cerrar mensaje y reiniciar juego
     function closeMessage() {
         modal.style.display = 'none';
-        shuffleBoard();
+        resetGame();
+    }
+    
+    // Reiniciar juego
+    function resetGame() {
+        gameStarted = false;
+        startButton.disabled = false;
+        shuffleButton.disabled = true;
+        
+        // Reiniciar el tablero
+        board = [];
+        for (let i = 1; i < boardSize * boardSize; i++) {
+            board.push(i);
+        }
+        board.push(null);
+        emptyCell = boardSize * boardSize - 1;
+        
+        renderBoard();
     }
     
     // Event listeners
+    startButton.addEventListener('click', startGame);
     shuffleButton.addEventListener('click', shuffleBoard);
-    closeModal.addEventListener('click', closeMessage);
     closeBtn.addEventListener('click', closeMessage);
     
     // Cerrar modal al hacer clic fuera del contenido
@@ -174,5 +201,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar el juego
     initializeBoard();
-    shuffleBoard();
-});
+})
