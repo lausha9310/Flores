@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rompecabezas de Girasoles</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Rompecabezas de Girasoles</h1>
+            <p class="subtitle">¡Completa el rompecabezas para descubrir el mensaje!</p>
+        </header>
+        
+        <div class="game-container">
+            <div class="puzzle-container">
+                <div class="puzzle-board" id="puzzle-board">
+                    <!-- Las piezas se generarán con JavaScript -->
+                </div>
+                
+                <div class="controls">
+                    <button id="shuffle-btn">Mezclar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de mensaje de amor -->
+        <div class="modal" id="message-modal">
+            <div class="modal-content">
+                <span class="close" id="close-modal">&times;</span>
+                <h2>Para Ti</h2>
+                <div class="message">
+                    <p>Como los girasoles siguen al sol,</p>
+                    <p>mi corazón te sigue a ti.</p>
+                    <p>Eres la luz que ilumina mis días</p>
+                    <p>y la razón de mi sonrisa.</p>
+                    <p>💛 Te amo 💛</p>
+                </div>
+                <button id="close-btn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
